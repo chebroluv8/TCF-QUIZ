@@ -3,7 +3,7 @@ import '../styles/Quiz.css';
 import Progress from './Progress';
 
 function Quiz() {
-  // Sample quiz data (this will later come from the backend)
+  // Sample quiz data
   const quizData = [
     {
       question: "What is the capital of France?",
@@ -38,14 +38,12 @@ function Quiz() {
   const [answered, setAnswered] = useState(false);
   const [userAnswers, setUserAnswers] = useState(Array(quizData.length).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
+  const [answerStatus, setAnswerStatus] = useState(null); // Tracks if answer is correct or incorrect
 
   // Handle option selection
   const handleOptionSelect = (optionIndex) => {
-    console.log("Selected option:", optionIndex); // Debugging
     if (!answered) {
       setSelectedOption(optionIndex);
-      
-      // Force state update to ensure React re-renders correctly
       setUserAnswers((prevAnswers) => {
         const newAnswers = [...prevAnswers];
         newAnswers[currentQuestion] = optionIndex;
@@ -63,12 +61,13 @@ function Quiz() {
       return;
     }
     
-    // Check if answer is correct
     const isCorrect = selectedOption === quizData[currentQuestion].correctAnswer;
     
-    // Update score if correct
-    if (isCorrect && !answered) {
+    if (isCorrect) {
       setScore(score + 1);
+      setAnswerStatus("correct");
+    } else {
+      setAnswerStatus("incorrect");
     }
     
     setAnswered(true);
@@ -80,6 +79,7 @@ function Quiz() {
       setCurrentQuestion(currentQuestion - 1);
       setAnswered(userAnswers[currentQuestion - 1] !== null);
       setSelectedOption(userAnswers[currentQuestion - 1]);
+      setAnswerStatus(null);
     }
   };
 
@@ -89,15 +89,15 @@ function Quiz() {
       setCurrentQuestion(currentQuestion + 1);
       setAnswered(userAnswers[currentQuestion + 1] !== null);
       setSelectedOption(userAnswers[currentQuestion + 1]);
+      setAnswerStatus(null);
     }
   };
-  
+
   return (
     <div>
-    <button className="home-btn">
-      <i className="fa-solid fa-house"></i>
-    </button>
-
+      <button className="home-btn">
+        <i className="fa-solid fa-house"></i>
+      </button>
 
       <div className="header">
         <h1>Memora</h1>
@@ -105,29 +105,43 @@ function Quiz() {
           <i className="fa fa-user"></i>
         </button>
       </div>
-      
+
       <div className="flashcard">
         <h2 className="question">
           {quizData[currentQuestion].question}
         </h2> 
 
         <form onSubmit={handleSubmit}>
-          {quizData[currentQuestion].options.map((option, index) => (
-            <label 
-              key={index} 
-              className={`answer-box ${selectedOption === index ? "selected" : ""}`}
-              onClick={() => handleOptionSelect(index)}
-            >
-              <input 
-                type="radio" 
-                name="answer"
-                value={index}
-                checked={selectedOption === index}
-                onChange={() => handleOptionSelect(index)}
-              /> 
-              {option}
-            </label>
-          ))}
+          {quizData[currentQuestion].options.map((option, index) => {
+            let optionClass = "option"; // Default class
+
+            if (answered) {
+              if (index === quizData[currentQuestion].correctAnswer) {
+                optionClass += " correct"; // Correct answer highlighted
+              } else if (index === selectedOption) {
+                optionClass += answerStatus === "incorrect" ? " incorrect" : "";
+              }
+            } else if (index === selectedOption) {
+              optionClass += " selected"; // Highlight selected option
+            }
+
+            return (
+              <label 
+                key={index} 
+                className={optionClass}
+                onClick={() => handleOptionSelect(index)}
+              >
+                <input 
+                  type="radio" 
+                  name="answer"
+                  value={index}
+                  checked={selectedOption === index}
+                  onChange={() => handleOptionSelect(index)}
+                /> 
+                {option}
+              </label>
+            );
+          })}
           
           <input 
             className="submit-btn" 
@@ -137,7 +151,7 @@ function Quiz() {
           />
         </form>
       </div>
-      
+
       <Progress currentProgress={currentQuestion + 1} totalProgress={quizData.length} />
 
       <button 
