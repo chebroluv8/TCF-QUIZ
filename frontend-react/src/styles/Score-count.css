@@ -1,0 +1,12 @@
+.score-counter {
+    background-color: #585752;
+    color: white;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 3px;
+    margin-top: 10px;
+    position: relative;
+    top: 10px;
+    text-align: center;
+    width: auto;
+}

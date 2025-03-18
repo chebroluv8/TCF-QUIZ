@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Quiz.css';
 import Progress from './Progress';
+import ScoreCounter from './Score-counter';
 
 function Quiz() {
   // Sample quiz data (this will later come from the backend)
@@ -139,7 +140,8 @@ function Quiz() {
       </div>
       
       <Progress currentProgress={currentQuestion + 1} totalProgress={quizData.length} />
-
+      <ScoreCounter score={score} />
+      
       <button 
         className="prev-btn" 
         onClick={goToPrevious}
