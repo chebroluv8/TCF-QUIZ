@@ -1,3 +1,6 @@
+
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
 body {
     font-family: Hind, sans-serif;
     text-align: center;
@@ -86,7 +89,7 @@ h2.question {
 .submit-btn:hover {
     background-color: #86847c;
 }
-.profile-pic-button {
+.home-btn, .profile-pic-button {
     position: absolute;
     right: 20px;
     padding: 20px 20px; 
@@ -102,9 +105,15 @@ h2.question {
     align-items: center;
     justify-content: center;
 }
-.profile-pic-button:hover {
+.home-btn:hover, .profile-pic-button:hover {
     background-color: #585752ae;
+    transform: scale(1.1);
 }
+
+.home-btn {
+    left: 20px;
+}
+
 .next-btn
 {
     background-color: #B3C4AF;
@@ -174,3 +183,4 @@ h2.question {
     border-color: #F44336;
     background-color: #ffebee;
 }
+

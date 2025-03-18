@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Quiz.css';
+import Progress from './Progress';
 
 function Quiz() {
   // Sample quiz data (this will later come from the backend)
@@ -93,6 +94,11 @@ function Quiz() {
   
   return (
     <div>
+    <button className="home-btn">
+      <i className="fa-solid fa-house"></i>
+    </button>
+
+
       <div className="header">
         <h1>Memora</h1>
         <button className="profile-pic-button"> 
@@ -132,6 +138,8 @@ function Quiz() {
         </form>
       </div>
       
+      <Progress currentProgress={currentQuestion + 1} totalProgress={quizData.length} />
+
       <button 
         className="prev-btn" 
         onClick={goToPrevious}

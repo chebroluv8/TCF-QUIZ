@@ -1,0 +1,25 @@
+.progress-container {
+    width: 100%;
+    max-width: 400px;
+    height: 20px; /* Increased height */
+    background-color: #e0ddd8;
+    border-radius: 10px; /* Rounded corners for the container */
+    margin-top: 20px;
+    justify-content: center;
+    margin: 20px auto;
+    border: 1px solid #585752; /* Outline around the container */
+}
+.progress-bar {
+    width: 60%; /* Simulated progress */
+    height: 100%;
+    background-color: #B3C4AF;
+    border-radius: 10px;
+    
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #333;
+    font-family: Hind, sans-serif;
+    text-align: center;
+}
