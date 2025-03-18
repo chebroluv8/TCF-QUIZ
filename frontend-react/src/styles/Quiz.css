@@ -32,7 +32,7 @@ h1{
     box-shadow: 10px 10px 5px 2px;
 }
 h2.question {
-    font-size: 30px;
+    font-size: 20px;
 }
 .answer-box {
     display: flex;
@@ -60,6 +60,13 @@ h2.question {
     background-color: #faf9f6b9;
     cursor: pointer;
 }
+
+.answer-box.selected {
+    background-color: #8d8b86;
+    color: #faf9f6b9;
+}
+
+
 .answer-box input[type="radio"] {
     display: none;
 }

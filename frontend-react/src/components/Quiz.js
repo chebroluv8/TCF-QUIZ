@@ -40,13 +40,16 @@ function Quiz() {
 
   // Handle option selection
   const handleOptionSelect = (optionIndex) => {
+    console.log("Selected option:", optionIndex); // Debugging
     if (!answered) {
       setSelectedOption(optionIndex);
       
-      // Update user answers
-      const newUserAnswers = [...userAnswers];
-      newUserAnswers[currentQuestion] = optionIndex;
-      setUserAnswers(newUserAnswers);
+      // Force state update to ensure React re-renders correctly
+      setUserAnswers((prevAnswers) => {
+        const newAnswers = [...prevAnswers];
+        newAnswers[currentQuestion] = optionIndex;
+        return newAnswers;
+      });
     }
   };
 
@@ -106,15 +109,7 @@ function Quiz() {
           {quizData[currentQuestion].options.map((option, index) => (
             <label 
               key={index} 
-              className={`answer-box ${
-                answered && index === quizData[currentQuestion].correctAnswer 
-                ? 'correct' 
-                : answered && index === selectedOption && index !== quizData[currentQuestion].correctAnswer 
-                ? 'incorrect' 
-                : selectedOption === index 
-                ? 'selected' 
-                : ''
-              }`}
+              className={`answer-box ${selectedOption === index ? "selected" : ""}`}
               onClick={() => handleOptionSelect(index)}
             >
               <input 
@@ -122,7 +117,7 @@ function Quiz() {
                 name="answer"
                 value={index}
                 checked={selectedOption === index}
-                onChange={() => {}}
+                onChange={() => handleOptionSelect(index)}
               /> 
               {option}
             </label>
