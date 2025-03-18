@@ -65,7 +65,7 @@ function Quiz() {
     const isCorrect = selectedOption === quizData[currentQuestion].correctAnswer;
     
     if (isCorrect) {
-      setScore(score + 1);
+      setScore(score + 10);
       setAnswerStatus("correct");
     } else {
       setAnswerStatus("incorrect");
