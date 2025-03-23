@@ -1,45 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import '../styles/Quiz.css';
 import Progress from './Progress';
 import ScoreCounter from './Score-counter';
 
 function Quiz() {
   // Sample quiz data
-  const quizData = [
-    {
-      question: "What is the capital of France?",
-      options: ["London", "Paris", "Berlin", "Madrid"],
-      correctAnswer: 1
-    },
-    {
-      question: "Which planet is known as the Red Planet?",
-      options: ["Earth", "Mars", "Jupiter", "Venus"],
-      correctAnswer: 1
-    },
-    {
-      question: "What is the largest mammal in the world?",
-      options: ["Elephant", "Giraffe", "Blue Whale", "Polar Bear"],
-      correctAnswer: 2
-    },
-    {
-      question: "Which of these is not a programming language?",
-      options: ["Java", "Python", "Cobra", "HTML"],
-      correctAnswer: 3
-    },
-    {
-      question: "What year was the first iPhone released?",
-      options: ["2005", "2006", "2007", "2008"],
-      correctAnswer: 2
-    }
-  ];
 
   // State variables
+  const [quizData, setQuizData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [userAnswers, setUserAnswers] = useState(Array(quizData.length).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
   const [answerStatus, setAnswerStatus] = useState(null); // Tracks if answer is correct or incorrect
+  const [loading, setLoading] = useState(true);
+
+  //
+  useEffect(() => {
+    const fetchQuizData = () => {
+      fetch('http://127.0.0.1:5000/questions') // Replace with your API URL
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          setQuizData(data)
+        })
+    }
+    
+    fetchQuizData(); // Fetch data on mount
+  }, []);
 
   // Handle option selection
   const handleOptionSelect = (optionIndex) => {
@@ -94,6 +87,7 @@ function Quiz() {
     }
   };
 
+  
   return (
     <div>
       <button className="home-btn">
@@ -109,15 +103,15 @@ function Quiz() {
 
       <div className="flashcard">
         <h2 className="question">
-          {quizData[currentQuestion].question}
+          {quizData[currentQuestion]?.question}
         </h2> 
 
         <form onSubmit={handleSubmit}>
-          {quizData[currentQuestion].options.map((option, index) => {
+          {quizData[currentQuestion]?.options.map((option, index) => {
             let optionClass = "option"; // Default class
 
             if (answered) {
-              if (index === quizData[currentQuestion].correctAnswer) {
+              if (index === quizData[currentQuestion]?.correctAnswer) {
                 optionClass += " correct"; // Correct answer highlighted
               } else if (index === selectedOption) {
                 optionClass += answerStatus === "incorrect" ? " incorrect" : "";
