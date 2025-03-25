@@ -2,6 +2,8 @@ import React, { useState , useEffect } from 'react';
 import '../styles/Quiz.css';
 import Progress from './Progress';
 import ScoreCounter from './Score-counter';
+import logoBrain from '../assets/Brain-logo.png';
+import textLogo from '../assets/Text-logo.png';
 
 function Quiz() {
   // Sample quiz data
@@ -94,7 +96,12 @@ function Quiz() {
         <button className="home-btn">
           <i className="fa-solid fa-house"></i>
         </button>
-        <h1>Memora</h1>
+
+        <div className="logo">
+            <img className = "logoBrain" src={logoBrain} alt="Logo"></img>
+            <img className = "logoText" src={textLogo} alt="Logo"></img>
+        </div>
+
         <button className="profile-pic-button"> 
           <i className="fa fa-user"></i>
         </button>

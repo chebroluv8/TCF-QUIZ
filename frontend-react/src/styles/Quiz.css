@@ -13,7 +13,21 @@ body {
     justify-content: center; 
     position: relative;
     width: 100%;
+    padding-bottom: 30px;
 }
+
+.logo {
+    flex-direction: column;
+}
+
+.logoBrain {
+    width: 100px;
+}
+
+.logoText {
+    width: 200px;
+}
+
 h1{
     color: #585752;
     font-size: 40px;
