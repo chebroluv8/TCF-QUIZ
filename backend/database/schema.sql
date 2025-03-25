@@ -22,4 +22,8 @@ CREATE TABLE IF NOT EXISTS scores (
     score INTEGER NOT NULL
 );
 
+UPDATE questions
+SET question = "What is the capital of England?"
+WHERE
+    id = 1;
 

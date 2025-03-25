@@ -34,12 +34,6 @@ def get_questions():
 
     return jsonify([dict(q) for q in quiz_questions])
 
-@app.route('/testPost', methods = ['POST'])
-def testPost():
-    data = request.json
-    name = data['name']
-    return (jsonify({"answer" : "hello ," + name}))
-
 @app.route('/submitAnswer', methods=['POST'])
 def submit_answer():
     data = request.json
