@@ -117,7 +117,7 @@ function Quiz() {
               }
             } else if (index === selectedOption) {
               optionClass += " selected"; // Highlight selected option
-            }
+            } 
 
             return (
               <label 
