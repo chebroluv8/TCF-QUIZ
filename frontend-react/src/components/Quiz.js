@@ -13,13 +13,13 @@ function Quiz() {
   const [answered, setAnswered] = useState(false);
   const [userAnswers, setUserAnswers] = useState(Array(quizData.length).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
-  const [answerStatus, setAnswerStatus] = useState(null); // Tracks if answer is correct or incorrect
+  const [answerStatus, setAnswerStatus] = useState(null); 
   const [loading, setLoading] = useState(true);
 
   //
   useEffect(() => {
     const fetchQuizData = () => {
-      fetch('http://127.0.0.1:5000/questions') // Replace with your API URL
+      fetch('http://127.0.0.1:5000/questions') 
         .then(response => {
           if (!response.ok) {
             throw new Error('HTTP error! Status: ${response.status}');
@@ -81,7 +81,7 @@ function Quiz() {
   const goToNext = () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-      setAnswered(userAnswers[currentQuestion + 1] !== null);
+      setAnswered(null);
       setSelectedOption(userAnswers[currentQuestion + 1]);
       setAnswerStatus(null);
     }
