@@ -6,7 +6,7 @@ app = Flask(__name__)
 CORS(app)
 
 def get_db_connection():
-    conn = sqlite3.connect('/Users/anyakrishnamony/Desktop/TCF-QUIZ/backend/database/quiz.db')
+    conn = sqlite3.connect('backend/database/quiz.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -19,10 +19,10 @@ def get_questions():
 
     quiz_questions = []
     correct_answer_dict = {
-        'A' : 1,
-        'B' : 2,
-        'C': 3,
-        'D' : 4
+        'A' : 0,
+        'B' : 1,
+        'C': 2,
+        'D' : 3
     }
     for row in response:
         quiz_questions.append({

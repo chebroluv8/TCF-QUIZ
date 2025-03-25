@@ -5,4 +5,3 @@ INSERT INTO questions (question, option_a, option_b, option_c, option_d, correct
 ("Which of these is not a programming language?", "Java", "Python", "Cobra", "HTML", "D"),
 ("What year was the first iPhone released?", "2005", "2006", "2007", "2008", "C");
 
-

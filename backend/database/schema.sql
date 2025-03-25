@@ -21,3 +21,5 @@ CREATE TABLE IF NOT EXISTS scores (
     username TEXT NOT NULL,
     score INTEGER NOT NULL
 );
+
+
