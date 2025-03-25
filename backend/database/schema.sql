@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS questions (
     correct_answer TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS answers (
+CREATE TABLE IF NOT EXISTS user_answers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER,
     user_answer TEXT NOT NULL,
