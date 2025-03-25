@@ -22,7 +22,7 @@ function Quiz() {
       fetch('http://127.0.0.1:5000/questions') // Replace with your API URL
         .then(response => {
           if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+            throw new Error('HTTP error! Status: ${response.status}');
           }
           return response.json();
         })
@@ -90,11 +90,10 @@ function Quiz() {
   
   return (
     <div>
-      <button className="home-btn">
-        <i className="fa-solid fa-house"></i>
-      </button>
-
       <div className="header">
+        <button className="home-btn">
+          <i className="fa-solid fa-house"></i>
+        </button>
         <h1>Memora</h1>
         <button className="profile-pic-button"> 
           <i className="fa fa-user"></i>
