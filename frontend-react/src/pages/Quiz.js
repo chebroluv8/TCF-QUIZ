@@ -2,6 +2,8 @@ import React, { useState , useEffect } from 'react';
 import '../styles/Quiz.css';
 import Progress from './Progress';
 import ScoreCounter from './Score-counter';
+import Header from '../components/header.js';
+import Footer from '../components/footer.js';
 import logoBrain from '../assets/Brain-logo.png';
 import textLogo from '../assets/Text-logo.png';
 
@@ -91,87 +93,74 @@ function Quiz() {
 
   
   return (
-    <div>
-      <div className="header">
-        <button className="home-btn">
-          <i className="fa-solid fa-house"></i>
-        </button>
+    <> 
+      <Header />
 
-        <div className="logo">
-            <img className = "logoBrain" src={logoBrain} alt="Logo"></img>
-            <img className = "logoText" src={textLogo} alt="Logo"></img>
+      <div className="quiz-container">
+        <div className="flashcard">
+          <h2 className="question">{quizData[currentQuestion]?.question}</h2> 
+          <form onSubmit={handleSubmit}>
+            {quizData[currentQuestion]?.options.map((option, index) => {
+              let optionClass = "option";
+              if (answered) {
+                if (index === quizData[currentQuestion]?.correctAnswer) {
+                  optionClass += " correct";
+                } else if (index === selectedOption) {
+                  optionClass += answerStatus === "incorrect" ? " incorrect" : "";
+                }
+              } else if (index === selectedOption) {
+                optionClass += " selected";
+              } 
+
+              return (
+                <label 
+                  key={index} 
+                  className={optionClass}
+                  onClick={() => handleOptionSelect(index)}
+                >
+                  <input 
+                    type="radio" 
+                    name="answer"
+                    value={index}
+                    checked={selectedOption === index}
+                    onChange={() => handleOptionSelect(index)}
+                  /> 
+                  {option}
+                </label>
+              );
+            })}
+            
+            <input 
+              className="submit-btn" 
+              type="submit" 
+              value="Check Answer"
+              disabled={answered}
+            />
+          </form>
         </div>
 
-        <button className="profile-pic-button"> 
-          <i className="fa fa-user"></i>
+        <Progress currentProgress={currentQuestion + 1} totalProgress={quizData.length} />
+        <ScoreCounter score={score} />
+        
+        <button 
+          className="prev-btn" 
+          onClick={goToPrevious}
+          disabled={currentQuestion === 0}
+        >
+          <i className="fa fa-chevron-left"></i>
+        </button>
+        
+        <button 
+          className="next-btn" 
+          onClick={goToNext}
+          disabled={currentQuestion === quizData.length - 1}
+        >
+          <i className="fa fa-chevron-right"></i>
         </button>
       </div>
 
-      <div className="flashcard">
-        <h2 className="question">
-          {quizData[currentQuestion]?.question}
-        </h2> 
-
-        <form onSubmit={handleSubmit}>
-          {quizData[currentQuestion]?.options.map((option, index) => {
-            let optionClass = "option"; // Default class
-
-            if (answered) {
-              if (index === quizData[currentQuestion]?.correctAnswer) {
-                optionClass += " correct"; // Correct answer highlighted
-              } else if (index === selectedOption) {
-                optionClass += answerStatus === "incorrect" ? " incorrect" : "";
-              }
-            } else if (index === selectedOption) {
-              optionClass += " selected"; // Highlight selected option
-            } 
-
-            return (
-              <label 
-                key={index} 
-                className={optionClass}
-                onClick={() => handleOptionSelect(index)}
-              >
-                <input 
-                  type="radio" 
-                  name="answer"
-                  value={index}
-                  checked={selectedOption === index}
-                  onChange={() => handleOptionSelect(index)}
-                /> 
-                {option}
-              </label>
-            );
-          })}
-          
-          <input 
-            className="submit-btn" 
-            type="submit" 
-            value="Check Answer"
-            disabled={answered}
-          />
-        </form>
-      </div>
-
-      <Progress currentProgress={currentQuestion + 1} totalProgress={quizData.length} />
-      <ScoreCounter score={score} />
-      
-      <button 
-        className="prev-btn" 
-        onClick={goToPrevious}
-        disabled={currentQuestion === 0}
-      >
-        <i className="fa fa-chevron-left"></i>
-      </button>
-      
-      <button 
-        className="next-btn" 
-        onClick={goToNext}
-        disabled={currentQuestion === quizData.length - 1}
-      >
-        <i className="fa fa-chevron-right"></i>
-      </button>
-    </div>
+      <Footer />
+    </>
   );
 }
 
