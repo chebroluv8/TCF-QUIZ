@@ -1,0 +1,66 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.footer {
+  background-color: #585752;
+  padding: 2rem 0;
+  margin: 0;
+  box-sizing: border-box;
+  margin-bottom: 0;
+}
+
+.footer-content {
+  margin: 0 auto;
+  display: flex;
+  padding: 0 1rem;
+}
+
+.footer-section {
+  flex: 1;
+  margin: 0 1rem;
+}
+
+.footer-section h4 {
+  color: #e7e7e7;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.footer-section p {
+  color: #999999;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid #ddd;
+}
+
+.footer-bottom p {
+  color: #999999;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-section {
+    margin: 1rem 0;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+}
+
+.main-content {
+  margin-bottom: 200px; /* Adjust this value based on your footer height */
+}

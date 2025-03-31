@@ -22,6 +22,10 @@ function Quiz() {
 
   //
   useEffect(() => {
+    document.title = 'Quiz';
+  }, []);
+  
+  useEffect(() => {
     const fetchQuizData = () => {
       fetch('http://127.0.0.1:5000/questions') 
         .then(response => {
