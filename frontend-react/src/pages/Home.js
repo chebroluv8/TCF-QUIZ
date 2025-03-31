@@ -1,16 +1,33 @@
 import React from 'react';
 import Footer from '../components/footer';
 import Header from '../components/header';
-
+import '../styles/Home.css';
+import { Link } from 'react-router-dom';
 
 function Dashboard() {
   return (
     <>
     <Header />
-    <div>
-      <h1>Home Page</h1>
-      <p>This is where the user can see their metrics.</p>
-    </div>
+    <div className="home-page">
+    <h1>Dashboard</h1>
+     <div className="metrics-field">
+        <p>Metrics</p>
+     </div>
+     
+     <div className="button-row">
+     <Link to="/add-questions">
+     <button className="dash-btn">
+        <p>Add Questions</p>
+     </button>
+     </Link>
+     <Link to="/quiz">
+     <button className="dash-btn">
+        <p>Start Quiz</p>
+     </button>
+     </Link>
+     </div>
+     
+     </div>
 
     <Footer />
     </>
