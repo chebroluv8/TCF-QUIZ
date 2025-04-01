@@ -66,7 +66,8 @@ h2.question {
     cursor: pointer;
 }
 .submit-btn:hover {
-    background-color: #86847c;
+    color: #faf9f6;
+    transform: scale(1.05);
 }
 .home-btn, .profile-pic-button {
     position: absolute;
@@ -160,11 +161,13 @@ h2.question {
     border-radius: 5px;
     background-color: #FAF9F6;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .option:hover {
-    background-color: #8d8b86;
-    color: #faf9f6;
+    background-color: #e0ddd8;
+    color: #585752;
+    transform: scale(1.05);
 }
 
 .option input {
@@ -172,16 +175,16 @@ h2.question {
 }
 
 .option.selected {
-    background-color: #8d8b86;
-    color: #faf9f6;
+    background-color: #e0ddd8;
+    color: #585752;
 }
 
 .option.correct {
-    background-color: #8fc09d;
-    color: #faf9f6;
+    background-color: #74927d;
+    color: #e0ddd8;
 }
 
 .option.incorrect {
-    background-color: #c08f8f;
-    color: #faf9f6;
+    background-color: #927474;
+    color: #e0ddd8;
 }

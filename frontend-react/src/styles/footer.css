@@ -1,0 +1,63 @@
+/* First, add these styles to your root element (in index.css or App.css) */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content wrapper (add this class to your main content div) */
+.main-content {
+  flex: 1;
+}
+
+/* Footer styles */
+.footer {
+  width: 100%;
+  padding: 15px 30px;
+  background: transparent;
+  border-top: 1px solid #585752;
+  margin-top: auto; /* This helps push it to the bottom */
+  box-sizing: border-box;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links a:hover {
+  color: #333;
+}
+
+.footer-brand {
+  text-align: right;
+}
+
+.footer-logo {
+  height: 30px;
+  margin-bottom: 5px;
+}
+
+.footer-brand p {
+  margin: 0;
+  font-size: 12px;
+  color: #666;
+}
