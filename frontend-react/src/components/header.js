@@ -6,7 +6,7 @@ import textLogo from '../assets/Text-logo.png';
 function Header() {
   return (
     <header className="header">
-      <Link to="/" className="home-btn">
+      <Link to="/home" className="home-btn">
         <i className="fa-solid fa-house"></i>
       </Link>
 
