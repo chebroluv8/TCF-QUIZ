@@ -6,6 +6,7 @@ import Header from '../components/header.js';
 import Footer from '../components/footer.js';
 import logoBrain from '../assets/Brain-logo.png';
 import textLogo from '../assets/Text-logo.png';
+import { Link } from 'react-router-dom';
 
 function Quiz() {
   // Sample quiz data
@@ -102,6 +103,9 @@ function Quiz() {
 
       <div className="quiz-container">
         <div className="flashcard">
+        <Link to="/add-questions">
+          <button className="addQ-btn"><i class="fa-solid fa-plus"></i></button>
+        </Link>
           <h2 className="question">{quizData[currentQuestion]?.question}</h2> 
           <form onSubmit={handleSubmit}>
             {quizData[currentQuestion]?.options.map((option, index) => {

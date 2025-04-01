@@ -1,0 +1,40 @@
+
+
+.profile_page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profile_container {
+    display: flex;
+    color: #000;
+    flex-direction: column;
+    padding: 40px;
+    border-radius: 10%;
+    border: 4px solid #C3C2BD;
+    border-radius: 10px;
+    background-color: #F3F1EA;
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-text {
+    font-family: Hind, sans-serif;
+    text-align: center;
+    justify-content: center;
+    font-size: 15px;
+}
+
+.smaller_field {
+    display: flex;
+    background: white;
+    height: 30px;
+    width: 300px;
+    align-items: left;
+    justify-content: left;
+    margin-bottom: 20px;
+    border: 2px solid #C3C2BD;
+}

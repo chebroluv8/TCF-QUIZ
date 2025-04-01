@@ -18,10 +18,30 @@ function Dashboard() {
 
     <div className="box-row">
     <div className="metrics-field">
-        <p>Metrics</p>
+    <p className="p2">Metrics</p>
+        <div className="box-row">
+          <div className="metrics-box">
+            <div className="accuracy-text">##%</div>
+            <p>Accuracy</p>
+          </div>
+          <div className="metrics-box"> 
+          <div className="accuracy-text"># / #</div>
+          <p>Average Score</p>
+          </div>
+        </div>
      </div>
      <div className="sets-field">
-        <p>Sets</p>
+      <p className="p2">Sets</p>
+      <div className="sets-box">
+        Set 1
+      </div>
+      <div className="sets-box">
+        Set 2
+      </div>
+      <div className="sets-box">
+        Set 3
+      </div>
+    
      </div>
     </div>
      

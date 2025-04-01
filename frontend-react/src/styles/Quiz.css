@@ -5,6 +5,7 @@ body {
     text-align: center;
     margin: 50px;
     background-color: #DDD8CF;
+    text-decoration: none;
 }
 
 
@@ -69,11 +70,12 @@ h2.question {
     color: #faf9f6;
     transform: scale(1.05);
 }
-.home-btn, .profile-pic-button {
+.home-btn, .profile-pic-button, .addQ-btn {
     position: absolute;
     right: 20px;
     padding: 5px 5px; 
     font-size: 25px; 
+    text-decoration: none;
     background-color: #585752;
     color: #faf9f6b9;
     border: none;
@@ -85,7 +87,7 @@ h2.question {
     align-items: center;
     justify-content: center;
 }
-.home-btn:hover, .profile-pic-button:hover {
+.home-btn:hover, .profile-pic-button:hover, .addQ-btn:hover {
     background-color: #585752ae;
     transform: scale(1.1);
 }
@@ -187,4 +189,12 @@ h2.question {
 .option.incorrect {
     background-color: #927474;
     color: #e0ddd8;
+}
+
+.addQ-btn {
+   left: 250px; 
+   top: -20px;
+   display: flex;
+   position: relative;
+   text-decoration: none;
 }

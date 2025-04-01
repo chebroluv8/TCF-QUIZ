@@ -39,7 +39,7 @@ body {
     flex-direction: row;
 }
 
-.metrics-field {
+.metrics-field, .metrics-box, .sets-box {
     color: #585752;
     width: 600px;
     height: 360px;
@@ -53,6 +53,33 @@ body {
     border: 4px solid #C3C2BD;
     border-radius: 10px;
     background-color: #F3F1EA;
+}
+
+.metrics-box {
+    width: 200px;
+    height: 200px;
+    border: 2px solid #C3C2BD;
+}
+
+.sets-box {
+    width: 400px;
+    height: 50px;
+    border: 2px solid #C3C2BD;
+}
+
+.sets-box:hover {
+    background-color: #dfddd8;
+    cursor: pointer;
+}
+
+.accuracy-text {
+    font-family: Hind, sans-serif;
+    text-align: center;
+    font-size: 40px;
+}
+
+.p2 {
+    font-size: 20px;
 }
 
 .sets-field {
