@@ -1,17 +1,18 @@
 import React from 'react';
-import Quiz from './pages/Quiz';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Progress from './pages/Progress';
-import Footer from './components/footer';
+import Quiz from './components/Quiz';
+import AddQuestion from './components/AddQuestion';
 
 function App() {
   return (
-    <div className="app">
-      <main className="main-content">
-        <Quiz />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Quiz />} />
+          <Route path="/add-question" element={<AddQuestion />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

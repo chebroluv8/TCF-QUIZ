@@ -34,6 +34,33 @@ def get_questions():
 
     return jsonify([dict(q) for q in quiz_questions])
 
+    @app.route('/questions', methods=['POST'])
+def add_question():
+    try:
+        data = request.get_json()
+    
+        if not all(key in data for key in ['question', 'options', 'correctAnswer']):
+            return jsonify({'error': 'Missing required fields'}), 400
+        
+        if len(data['options']) != 4:
+            return jsonify({'error': 'Exactly 4 options are required'}), 400
+        
+        if not isinstance(data['correctAnswer'], int) or not (0 <= data['correctAnswer'] < 4):
+            return jsonify({'error': 'Invalid correct answer index'}), 400
+        
+        new_question = {
+            'question': data['question'],
+            'options': data['options'],
+            'correctAnswer': data['correctAnswer']
+        }
+
+        questions.append(new_question)
+        
+        return jsonify({'message': 'Question added successfully'}), 201
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/submitAnswer', methods=['POST'])
 def submit_answer():
     data = request.json
