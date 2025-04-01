@@ -11,3 +11,7 @@ INSERT INTO questions (question, option_a, option_b, option_c, option_d, correct
 ("Who painted the Mona Lisa?", "Leonardo da Vinci", "Pablo Picasso", "Vincent van Gogh", "Michelangelo", "A"),
 ("What is the smallest country in the world?", "Monaco", "Nauru", "San Marino", "Vatican City", "D"),
 ("What is the tallest mountain in the world?", "Mount Everest", "Mount Olympus", "Kilimanjaro", "Mount Fuji", "A");
+
+INSERT INTO users (first_name, last_name, email, password) VALUES
+('Anya', 'Krishnamony', 'anyak@gmail.com', 'password123');
+

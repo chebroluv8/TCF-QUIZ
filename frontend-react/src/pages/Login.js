@@ -9,6 +9,7 @@ import '../styles/Quiz.css';
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
   
     // Use navigate for routing
     const navigate = useNavigate();
@@ -16,29 +17,34 @@ function Login() {
     // Handle form submission
     const handleSubmit = async (e) => {
       e.preventDefault();
-  
+      setError("");
+    
       try {
-        const response = await fetch('http://localhost:4001/users/'); // Replace with your actual endpoint
+        // Use the login endpoint instead of getting all users
+        const response = await fetch('http://127.0.0.1:5000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password
+          })
+        });
+        
         const data = await response.json();
-        console.log(data);
-  
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to fetch users');
-        }
-  
-        // Find a user that matches both email and password
-        const matchedUser = data.users.find(user => user.email === email && user.password === password);
-  
-        if (matchedUser) {
-          navigate(`/profile`);
+        
+        if (response.ok) {
+          // Login successful
+          localStorage.setItem('user', JSON.stringify(data.user));
+          navigate('/profile'); // or your dashboard page
         } else {
-          alert('Invalid email or password');
+          // Login failed
+          setError(data.message || 'Invalid credentials');
         }
-  
-        setEmail("");
-        setPassword("");
       } catch (err) {
-        alert('Error: ' + err.message);
+        console.error("Login error:", err);
+        setError('Server error. Please try again later.');
       }
     };
   
@@ -72,6 +78,7 @@ function Login() {
               Login
             </button>
             </Link>
+            <Link to="/create-account">Create Account</Link>
           </form>
         <Footer />
       </div>

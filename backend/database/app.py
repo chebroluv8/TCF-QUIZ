@@ -10,6 +10,97 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+@app.route('/users', methods=['GET'])
+def get_users():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users')
+    response = cursor.fetchall()
+    conn.close()
+
+    user_list = []
+    for row in response:
+        user_list.append({
+            "id": row['id'],
+            "first_name": row['first_name'],
+            "last_name": row['last_name'],
+            "email": row['email'],
+            "password": row['password']
+        })
+    return jsonify([dict(u) for u in user_list])
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    email = data.get('email')
+    password = data.get('password')
+    
+    if not email or not password:
+        return jsonify({"message": "Email and password required"}), 400
+        
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users WHERE email = ? AND password = ?', 
+                  (email, password))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        # Convert to dict and remove password
+        user_dict = dict(user)
+        user_dict.pop('password', None)
+        return jsonify({"message": "Login successful", "user": user_dict})
+    else:
+        return jsonify({"message": "Invalid credentials"}), 401
+
+@app.route('/create-user', methods=['POST'])
+def add_users():
+    # Get JSON data from request
+    data = request.json
+    
+    # Extract user data
+    first_name = data.get('first_name')
+    last_name = data.get('last_name')
+    email = data.get('email')
+    password = data.get('password')
+    
+    # Basic validation
+    if not all([first_name, last_name, email, password]):
+        return jsonify({"message": "All fields are required"}), 400
+    
+    # Connect to database
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Check if email already exists
+    cursor.execute('SELECT * FROM users WHERE email = ?', (email,))
+    existing_user = cursor.fetchone()
+    
+    if existing_user:
+        conn.close()
+        return jsonify({"message": "Email already exists"}), 400
+    
+    # Insert new user
+    try:
+        cursor.execute(
+            'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
+            (first_name, last_name, email, password)
+        )
+        conn.commit()
+        user_id = cursor.lastrowid
+        
+        conn.close()
+        return jsonify({
+            "message": "User created successfully",
+            "userId": user_id
+        }), 201
+    except Exception as e:
+        conn.close()
+        return jsonify({"message": f"Error creating user: {str(e)}"}), 500
+    
+
+
+
 @app.route('/questions', methods=['GET'])
 def get_questions():
     conn = get_db_connection()

@@ -9,6 +9,7 @@ import ProfilePage from './pages/Profile';
 import Dashboard from './pages/Home';
 import AddQs from "./pages/AddQuestions";
 import Login from "./pages/Login";
+import CreateAccount from "./pages/CreateAccount";
 
 
 const router = createBrowserRouter([
@@ -16,6 +17,7 @@ const router = createBrowserRouter([
   { path: "/quiz", element: <Quiz /> },
   { path: "/home", element: <Dashboard />},
   { path: "/add-questions", element: <AddQs />},
+  { path: "/create-account", element: <CreateAccount />},
   { path: "/", element: <Login /> }
 ]);
 

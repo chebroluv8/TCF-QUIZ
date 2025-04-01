@@ -9,7 +9,7 @@ function Footer() {
     <footer className="footer">
       <div className="footer-content">
         <div className="footer-links">
-          <Link to="/Home.js">Dashboard</Link>
+          <Link to="/Home">Dashboard</Link>
           <Link to="/privacy">Privacy Policy</Link>
           <Link to="/contact">Contact Us</Link>
         </div>
