@@ -11,7 +11,7 @@ function Footer() {
       <div className="footer-content">
         <div className="footer-links">
           <Link to="/Home">Dashboard</Link>
-          <Link to="/privacy">Privacy Policy</Link>
+          <Link to="/privacy-policy">Privacy Policy</Link>
           <Link to="/contact">Contact Us</Link>
         </div>
         <div className="footer-brand">

@@ -20,7 +20,8 @@ function Quiz() {
     title: "",
     description: "",
     category: "",
-    date_created: ""
+    date_created: "",
+    set_difficulty: "medium"
   });
   const [isFlipping, setIsFlipping] = useState(false);
   const navigate = useNavigate();
@@ -46,11 +47,11 @@ function Quiz() {
         const questionsResponse = await fetch(`http://127.0.0.1:5000/set-questions/${setId}`);
         if (questionsResponse.ok) {
           const questionsData = await questionsResponse.json();
-          // Transform the data to include options array
           const transformedData = questionsData.map(q => ({
             question: q.question,
             options: [q.option_a, q.option_b, q.option_c, q.option_d],
-            correctAnswer: ['A', 'B', 'C', 'D'].indexOf(q.correct_answer)
+            correctAnswer: ['A', 'B', 'C', 'D'].indexOf(q.correct_answer),
+            question_difficulty: q.question_difficulty
           }));
           setQuizData(transformedData);
           setLoading(false);
@@ -125,6 +126,40 @@ function Quiz() {
     }
   };
 
+  // Add this helper function to get difficulty color
+  const getDifficultyColor = (difficulty) => {
+    switch(difficulty?.toLowerCase()) {
+      case 'easy':
+        return '#48BB78';  // green
+      case 'hard':
+        return '#F56565';  // red
+      case 'medium':
+      default:
+        return '#e3d326';  // blue
+    }
+  };
+
+  const handleDeleteSet = async () => {
+    if (window.confirm('Are you sure you want to delete this set? This action cannot be undone.')) {
+      const setId = window.location.pathname.split('/').pop();
+      try {
+        const response = await fetch(`http://127.0.0.1:5000/delete-set/${setId}`, {
+          method: 'DELETE',
+        });
+        
+        if (response.ok) {
+          alert('Set deleted successfully');
+          navigate('/home'); // Redirect to home page after deletion
+        } else {
+          alert('Failed to delete set');
+        }
+      } catch (error) {
+        console.error('Error deleting set:', error);
+        alert('Error deleting set');
+      }
+    }
+  };
+
   return (
     <> 
       <Header />
@@ -133,12 +168,20 @@ function Quiz() {
         <div className="set-info">
           <div className="set-header">
             <h1>{setInfo.title}</h1>
-            <button 
-              className="edit-set-btn"
-              onClick={() => navigate(`/add-questions/${window.location.pathname.split('/').pop()}`)}
-            >
-              <i className="fas fa-edit"></i>
-            </button>
+            <div className="set-actions">
+              <button 
+                className="edit-set-btn"
+                onClick={() => navigate(`/add-questions/${window.location.pathname.split('/').pop()}`)}
+              >
+                <i className="fas fa-edit"></i>
+              </button>
+              <button 
+                className="delete-set-btn"
+                onClick={handleDeleteSet}
+              >
+                <i className="fas fa-trash"></i>
+              </button>
+            </div>
           </div>
           <div className="set-details">
             <p className="set-description">{setInfo.description}</p>
@@ -150,12 +193,35 @@ function Quiz() {
                 <i className="fas fa-calendar"></i> 
                 {setInfo.date_created ? new Date(setInfo.date_created).toLocaleDateString() : ''}
               </span>
+              <span className="difficulty" style={{ 
+                backgroundColor: getDifficultyColor(setInfo.set_difficulty),
+                color: 'white',
+                padding: '4px 12px',
+                borderRadius: '20px',
+                marginLeft: '10px',
+                fontWeight: '500'
+              }}>
+                <i className="fas fa-layer-group"></i> {setInfo.set_difficulty?.charAt(0).toUpperCase() + setInfo.set_difficulty?.slice(1) || 'Medium'}
+              </span>
+              
             </div>
           </div>
         </div>
 
         <div className={`flashcard ${isFlipping ? 'flipping' : ''}`}>
-          <h2 className="question">{quizData[currentQuestion]?.question}</h2> 
+          <div className="question-header">
+            <h2 className="question">{quizData[currentQuestion]?.question}</h2>
+            <span 
+              className="difficulty-badge"
+              style={{ 
+                backgroundColor: getDifficultyColor(quizData[currentQuestion]?.question_difficulty),
+                fontWeight: '500'
+              }}
+            >
+              {quizData[currentQuestion]?.question_difficulty?.charAt(0).toUpperCase() + 
+               quizData[currentQuestion]?.question_difficulty?.slice(1) || 'Medium'}
+            </span>
+          </div>
           <form onSubmit={handleSubmit}>
             {quizData[currentQuestion]?.options.map((option, index) => {
               let optionClass = "option";

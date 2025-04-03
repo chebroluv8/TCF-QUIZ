@@ -9,7 +9,8 @@ function CreateSet() {
   const [setInfo, setSetInfo] = useState({
     title: '',
     description: '',
-    category: ''
+    category: '',
+    set_difficulty: 'medium'
   });
 
   const handleChange = (e) => {
@@ -97,6 +98,21 @@ function CreateSet() {
                 placeholder="Enter set description"
                 rows="4"
               />
+            </div>
+
+            <div className="difficulty-selector">
+              <label htmlFor="set_difficulty">Set Difficulty:</label>
+              <select
+                id="set_difficulty"
+                name="set_difficulty"
+                value={setInfo.set_difficulty}
+                onChange={handleChange}
+                className="difficulty-select"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
             </div>
 
             <button type="submit" className="create-btn">

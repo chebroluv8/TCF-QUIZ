@@ -179,3 +179,15 @@ form {
     position: relative;
 }
 
+.error-message {
+    color: #F56565; /* Red color for error */
+    background-color: #FFE5E5; /* Light red background */
+    border: 1px solid #F56565; /* Red border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding for spacing */
+    margin-top: 10px; /* Space above the message */
+    text-align: center; /* Center the text */
+    font-weight: bold; /* Make the text bold */
+    font-size: 14px; /* Adjust font size */
+}
+

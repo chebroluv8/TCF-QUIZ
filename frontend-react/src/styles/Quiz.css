@@ -94,11 +94,29 @@ h1{
     justify-content: center;
 }
 
+.question-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.difficulty-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 10px;
+}
+
 h2.question {
-    font-size: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    width: 100%;
+  font-size: 20px;
+  margin: 0;  /* Remove margin since we're handling it in question-header */
+  text-align: center;
 }
 
 .submit-btn {
@@ -333,20 +351,41 @@ h2.question {
   text-align: left;
 }
 
-.edit-set-btn {
+.set-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.edit-set-btn,
+.delete-set-btn {
   background: none;
+  color: #666;
   border: none;
-  color: #2D3748;
-  font-size: 20px;
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .edit-set-btn:hover {
-  background-color: #EDF2F7;
-  transform: scale(1.1);
+  background-color: #e2e8f0;
+  color: #4A90E2;
+}
+
+.delete-set-btn:hover {
+  background-color: #fee2e2;
+  color: #ef4444;
+}
+
+.delete-set-btn i {
+  color: #666;
+}
+
+.delete-set-btn:hover i {
+  color: #ef4444;
 }
 
 .set-details {
@@ -375,7 +414,13 @@ h2.question {
 }
 
 .set-metadata i {
-  color: #4A90E2;
+  color: #666;
+}
+
+.set-metadata .difficulty i {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
 /* Make sure the quiz container accommodates the new header */

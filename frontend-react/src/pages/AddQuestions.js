@@ -11,7 +11,8 @@ function AddQuestions() {
   const [setInfo, setSetInfo] = useState({
     title: '',
     description: '',
-    category: ''
+    category: '',
+    set_difficulty: 'medium'
   });
   
   const [questions, setQuestions] = useState([]);
@@ -21,7 +22,8 @@ function AddQuestions() {
     option_b: '',
     option_c: '',
     option_d: '',
-    correct_answer: ''
+    correct_answer: '',
+    question_difficulty: 'medium'
   });
 
   useEffect(() => {
@@ -42,8 +44,18 @@ function AddQuestions() {
       fetch(`http://127.0.0.1:5000/set-questions/${setId}`)
         .then(res => res.json())
         .then(data => {
-          // The data is now in the correct format with option_a, option_b, etc.
-          setQuestions(data);
+          // Make sure we include question_id in the state
+          const questionsWithIds = data.map(q => ({
+            question_id: q.question_id,
+            question: q.question,
+            option_a: q.option_a,
+            option_b: q.option_b,
+            option_c: q.option_c,
+            option_d: q.option_d,
+            correct_answer: q.correct_answer,
+            question_difficulty: q.question_difficulty
+          }));
+          setQuestions(questionsWithIds);
         })
         .catch(err => console.error('Error fetching questions:', err));
     }
@@ -126,7 +138,8 @@ function AddQuestions() {
           option_b: '',
           option_c: '',
           option_d: '',
-          correct_answer: ''
+          correct_answer: '',
+          question_difficulty: 'medium'
         });
         alert('Question added successfully!');
       }
@@ -169,6 +182,20 @@ function AddQuestions() {
               onChange={handleSetInfoChange}
               placeholder="Description"
             />
+            <div className="difficulty-selector">
+              <label htmlFor="set_difficulty">Set Difficulty:</label>
+              <select
+                id="set_difficulty"
+                name="set_difficulty"
+                value={setInfo.set_difficulty}
+                onChange={handleSetInfoChange}
+                className="difficulty-select"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
             <button onClick={saveSetInfo}>Save Set Info</button>
           </div>
     </div>
@@ -219,6 +246,15 @@ function AddQuestions() {
                   <option value="B">B</option>
                   <option value="C">C</option>
                   <option value="D">D</option>
+                </select>
+                <select
+                  value={question.question_difficulty}
+                  onChange={(e) => handleQuestionChange(index, 'question_difficulty', e.target.value)}
+                  className="difficulty-select"
+                >
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
                 </select>
                 <button onClick={() => saveQuestion(question, index)}>Save Question</button>
               </div>
@@ -275,6 +311,16 @@ function AddQuestions() {
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
+              </select>
+              <select
+                name="question_difficulty"
+                value={newQuestion.question_difficulty}
+                onChange={handleNewQuestionChange}
+                className="difficulty-select"
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
               </select>
               <button onClick={addNewQuestion}>Add Question</button>
             </div>

@@ -56,9 +56,10 @@ function Login() {
                   <img className="logoBrain" src={logoBrain} alt="Logo" />
                   <img className="logoText" src={textLogo} alt="Logo" />
                 </div>
-                {error && <div className="error-message">{error}</div>}
+                
                 <form className="login-box" onSubmit={handleSubmit} autoComplete="off">
                     <div>
+                    {error && <div className="error-message">{error}</div>}
                     <p className="p5">Login</p>
                         <p>Email:</p>
                         <input

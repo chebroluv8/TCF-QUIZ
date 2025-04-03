@@ -320,7 +320,8 @@ def get_set_questions(set_id):
             "option_b": row['option_b'],
             "option_c": row['option_c'],
             "option_d": row['option_d'],
-            "correct_answer": row['correct_answer']
+            "correct_answer": row['correct_answer'],
+            "question_difficulty": row['question_difficulty']
         })
 
     return jsonify(quiz_questions)
@@ -331,7 +332,7 @@ def get_set_info(set_id):
     cursor = conn.cursor()
     
     cursor.execute('''
-        SELECT title, description, category, date_created 
+        SELECT title, description, category, date_created, set_difficulty 
         FROM question_sets 
         WHERE set_id = ?
     ''', (set_id,))
@@ -352,9 +353,10 @@ def update_set(set_id):
     
     cursor.execute('''
         UPDATE question_sets 
-        SET title = ?, description = ?, category = ?
+        SET title = ?, description = ?, category = ?, set_difficulty = ?
         WHERE set_id = ?
-    ''', (data['title'], data['description'], data['category'], set_id))
+    ''', (data['title'], data['description'], data['category'], 
+          data.get('set_difficulty', 'medium'), set_id))
     
     conn.commit()
     conn.close()
@@ -370,11 +372,12 @@ def update_question(question_id):
     cursor.execute('''
         UPDATE questions 
         SET question = ?, option_a = ?, option_b = ?, 
-            option_c = ?, option_d = ?, correct_answer = ?
+            option_c = ?, option_d = ?, correct_answer = ?,
+            question_difficulty = ?
         WHERE question_id = ?
     ''', (data['question'], data['option_a'], data['option_b'], 
-          data['option_c'], data['option_d'], data['correct_answer'], 
-          question_id))
+          data['option_c'], data['option_d'], data['correct_answer'],
+          data['question_difficulty'], question_id))
     
     conn.commit()
     conn.close()
@@ -389,10 +392,11 @@ def add_question(set_id):
     
     cursor.execute('''
         INSERT INTO questions (set_id, question, option_a, option_b, 
-                             option_c, option_d, correct_answer)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+                             option_c, option_d, correct_answer, question_difficulty)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ''', (set_id, data['question'], data['option_a'], data['option_b'],
-          data['option_c'], data['option_d'], data['correct_answer']))
+          data['option_c'], data['option_d'], data['correct_answer'],
+          data.get('question_difficulty', 'medium')))
     
     question_id = cursor.lastrowid
     conn.commit()
@@ -410,9 +414,10 @@ def create_set():
     cursor = conn.cursor()
     
     cursor.execute('''
-        INSERT INTO question_sets (user_id, title, description, category)
-        VALUES (?, ?, ?, ?)
-    ''', (data['user_id'], data['title'], data['description'], data['category']))
+        INSERT INTO question_sets (user_id, title, description, category, set_difficulty)
+        VALUES (?, ?, ?, ?, ?)
+    ''', (data['user_id'], data['title'], data['description'], 
+          data['category'], data.get('set_difficulty', 'medium')))
     
     set_id = cursor.lastrowid
     conn.commit()
@@ -468,6 +473,27 @@ def update_user():
     
     conn.close()
     return jsonify({'message': 'No fields to update'})
+
+@app.route('/delete-set/<set_id>', methods=['DELETE'])
+def delete_set(set_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    try:
+        # First delete all questions in the set
+        cursor.execute('DELETE FROM questions WHERE set_id = ?', (set_id,))
+        
+        # Then delete the set itself
+        cursor.execute('DELETE FROM question_sets WHERE set_id = ?', (set_id,))
+        
+        conn.commit()
+        conn.close()
+        
+        return jsonify({"message": "Set deleted successfully"})
+    except Exception as e:
+        conn.rollback()
+        conn.close()
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

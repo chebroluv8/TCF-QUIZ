@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import logoBrain from '../assets/Brain-logo.png';
 import textLogo from '../assets/Text-logo.png';
 import '../styles/Login.css';
-import Header from '../components/header';
-import Footer from '../components/footer';
 
 function CreateAccount() {
     useEffect(() => {

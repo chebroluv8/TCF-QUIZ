@@ -208,3 +208,70 @@ select:focus {
 .question-actions button {
     margin: 0 auto;
 }
+
+.difficulty-select {
+    padding: 8px 12px;
+    border: 2px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #ffffff;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.difficulty-select option {
+    font-weight: 500;
+}
+
+.difficulty-select option[value="easy"] {
+    color: #48BB78;
+}
+
+.difficulty-select option[value="medium"] {
+    color: #4A90E2;
+}
+
+.difficulty-select option[value="hard"] {
+    color: #F56565;
+}
+
+.question-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.difficulty-selector {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.difficulty-selector label {
+    font-weight: 500;
+    color: #2D3748;
+}
+
+.difficulty-selector select {
+    padding: 8px 12px;
+    border: 2px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.difficulty-selector select option[value="easy"] {
+    color: #48BB78;
+}
+
+.difficulty-selector select option[value="medium"] {
+    color: #4A90E2;
+}
+
+.difficulty-selector select option[value="hard"] {
+    color: #F56565;
+}

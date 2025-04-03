@@ -11,6 +11,7 @@ import AddQs from "./pages/AddQuestions";
 import Login from "./pages/Login";
 import CreateAccount from "./pages/CreateAccount";
 import CreateSet from "./pages/CreateSet";
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import './index.css';
 
 
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
   { path: "/create-set", element: <CreateSet /> },
   { path: "/", element: <Login /> },
   { path: "/login", element: <Login /> },
+  { path: "/privacy-policy", element: <PrivacyPolicy /> }
 ]);
 
 createRoot(document.getElementById("root")).render(
