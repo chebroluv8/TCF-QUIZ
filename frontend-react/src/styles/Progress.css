@@ -1,25 +1,20 @@
 .progress-container {
     width: 100%;
     max-width: 400px;
-    height: 20px; /* Increased height */
-    background-color: #e0ddd8;
-    border-radius: 10px; /* Rounded corners for the container */
-    margin-top: 20px;
-    justify-content: center;
+    height: 20px;
+    background-color: #ffffff;  /* Match the light background we use */
+    border-radius: 20px;  /* Match our rounded corners theme */
     margin: 20px auto;
-    border: 1px solid #585752; /* Outline around the container */
-}
-.progress-bar {
-    width: 60%; /* Simulated progress */
-    height: 100%;
-    background-color: #B3C4AF;
-    border-radius: 10px;
-    
+    justify-content: center;
+    border: 2px solid #C6C5C1;  /* Match our border style */
+    overflow: hidden;  /* Ensure progress bar stays within container */
+    box-shadow: 0 2px 8px rgba(88, 87, 82, 0.1);  /* Subtle shadow */
 }
 
-.progress-text {
-    font-size: 14px;
-    color: #333;
-    font-family: Hind, sans-serif;
-    text-align: center;
+.progress-bar {
+    width: 60%;
+    height: 100%;
+    background-color: #4A90E2;  /* Match our blue accent color */
+    border-radius: 20px;
+    transition: width 0.3s ease;  /* Smooth transition when progress updates */
 }

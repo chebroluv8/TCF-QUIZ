@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/Progress.css';
+import '../styles/Score-count.css';
 
 function Progress(props) {
     const { currentProgress, totalProgress } = props;
@@ -10,7 +11,7 @@ function Progress(props) {
             <div className="progress-container">
                 <div className="progress-bar" style={{ width: `${TotalProgressPercent}%` }}></div>
             </div>
-            <p className="progress-text">Progress: {currentProgress}/{totalProgress}</p>
+            <p className="score-counter"> {currentProgress}/{totalProgress}</p>
         </section>
     );
 }

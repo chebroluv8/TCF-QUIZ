@@ -5,6 +5,7 @@ import logoBrain from '../assets/Brain-logo.png';
 import textLogo from '../assets/Text-logo.png';
 
 function Footer() {
+  
   return (
     <footer className="footer">
       <div className="footer-content">

@@ -1,16 +1,12 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Quiz.css';
 import Progress from './Progress';
 import ScoreCounter from './Score-counter';
 import Header from '../components/header.js';
 import Footer from '../components/footer.js';
-import logoBrain from '../assets/Brain-logo.png';
-import textLogo from '../assets/Text-logo.png';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Quiz() {
-  // Sample quiz data
-
   // State variables
   const [quizData, setQuizData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -20,27 +16,51 @@ function Quiz() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [answerStatus, setAnswerStatus] = useState(null); 
   const [loading, setLoading] = useState(true);
+  const [setInfo, setSetInfo] = useState({
+    title: "",
+    description: "",
+    category: "",
+    date_created: ""
+  });
+  const navigate = useNavigate();
 
-  //
   useEffect(() => {
     document.title = 'Quiz';
   }, []);
   
   useEffect(() => {
-    const fetchQuizData = () => {
-      fetch('http://127.0.0.1:5000/questions') 
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('HTTP error! Status: ${response.status}');
-          }
-          return response.json();
-        })
-        .then(data => {
-          setQuizData(data)
-        })
-    }
+    const fetchQuizData = async () => {
+      // Get the set_id from the URL parameters
+      const setId = window.location.pathname.split('/').pop();
+      
+      try {
+        // Fetch set information
+        const setResponse = await fetch(`http://127.0.0.1:5000/set-info/${setId}`);
+        if (setResponse.ok) {
+          const setData = await setResponse.json();
+          setSetInfo(setData);
+        }
+
+        // Fetch questions
+        const questionsResponse = await fetch(`http://127.0.0.1:5000/set-questions/${setId}`);
+        if (questionsResponse.ok) {
+          const questionsData = await questionsResponse.json();
+          // Transform the data to include options array
+          const transformedData = questionsData.map(q => ({
+            question: q.question,
+            options: [q.option_a, q.option_b, q.option_c, q.option_d],
+            correctAnswer: ['A', 'B', 'C', 'D'].indexOf(q.correct_answer)
+          }));
+          setQuizData(transformedData);
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        setLoading(false);
+      }
+    };
     
-    fetchQuizData(); // Fetch data on mount
+    fetchQuizData();
   }, []);
 
   // Handle option selection
@@ -96,16 +116,36 @@ function Quiz() {
     }
   };
 
-  
   return (
     <> 
       <Header />
 
       <div className="quiz-container">
+        <div className="set-info">
+          <div className="set-header">
+            <h1>{setInfo.title}</h1>
+            <button 
+              className="edit-set-btn"
+              onClick={() => navigate(`/add-questions/${window.location.pathname.split('/').pop()}`)}
+            >
+              <i className="fas fa-edit"></i>
+            </button>
+          </div>
+          <div className="set-details">
+            <p className="set-description">{setInfo.description}</p>
+            <div className="set-metadata">
+              <span className="category">
+                <i className="fas fa-folder"></i> {setInfo.category}
+              </span>
+              <span className="date">
+                <i className="fas fa-calendar"></i> 
+                {setInfo.date_created ? new Date(setInfo.date_created).toLocaleDateString() : ''}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div className="flashcard">
-        <Link to="/add-questions">
-          <button className="addQ-btn"><i class="fa-solid fa-plus"></i></button>
-        </Link>
           <h2 className="question">{quizData[currentQuestion]?.question}</h2> 
           <form onSubmit={handleSubmit}>
             {quizData[currentQuestion]?.options.map((option, index) => {

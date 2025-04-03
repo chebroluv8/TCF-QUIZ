@@ -1,40 +1,223 @@
-
-
 .profile_page {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin-top: 20px;
 }
 
-.profile_container {
-    display: flex;
-    color: #000;
-    flex-direction: column;
-    padding: 40px;
-    border-radius: 10%;
-    border: 4px solid #C3C2BD;
+.profile-container {
+    max-width: 800px;
+    width: 90%;
+    margin: 40px auto;
+    padding: 30px;
+}
+
+.profile-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #E2E8F0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.profile-field {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.profile-field input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #E2E8F0;
     border-radius: 10px;
-    background-color: #F3F1EA;
-    width: 300px;
+    font-size: 16px;
+}
+
+/* If you have a profile picture section */
+.profile-picture-section {
+    width: 100%;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* Make sure buttons maintain proper width */
+.profile-btn, .logout-btn, .delete-btn {
+    min-width: 120px;  /* Or whatever minimum width you prefer */
+    padding: 12px 24px;
+}
+
+.p5 {
+    font-size: 24px;
+    color: #2D3748;
+    margin-bottom: 20px;
+}
+
+.container_content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.profile-text {
-    font-family: Hind, sans-serif;
-    text-align: center;
-    justify-content: center;
-    font-size: 15px;
-}
-
 .smaller_field {
     display: flex;
-    background: white;
-    height: 30px;
-    width: 300px;
-    align-items: left;
-    justify-content: left;
+    flex-direction: column;
+    background: #ffffff;
+    padding: 12px;
+    width: 80%;
+    align-items: center;
+    justify-content: center;
+    margin: 8px 0;
+    border: 1px solid #E2E8F0;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.profile-text {
+    font-family: Hind, sans-serif;
+    color: #2D3748;
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+}
+
+.profile-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.logout-button {
+    display: inline-block;
+    color: #4A90E2;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 2px solid #4A90E2;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    background-color: #4A90E2;
+    color: #faf9f6;
+    border-color: #4A90E2;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(88, 87, 82, 0.2);
+}
+
+.delete-button {
+    display: inline-block;
+    color: #ff4444;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 8px 16px;
+    border: 2px solid #ff4444;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+
+.delete-button:hover {
+    background-color: #ff4444;
+    color: #faf9f6;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.2);
+}
+
+/* Add responsive design */
+@media (max-width: 600px) {
+    .profile_container {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .smaller_field {
+        padding: 10px;
+    }
+
+    .profile-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .logout-button,
+    .delete-button {
+        width: 100%;
+    }
+}
+
+.profile-pic-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 20px;
-    border: 2px solid #C3C2BD;
+}
+
+.profile-pic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #C6C5C1;
+    background-color: #F3F1EA;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-input-label {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: #2D3748;
+    border: 2px solid #2D3748;
+    border-radius: 20px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-input-label:hover {
+    background-color: #2D3748;
+    color: #faf9f6;
+    border-color: #2D3748;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(88, 87, 82, 0.2);
+}
+
+.upload-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: #2D3748;
+    border: 2px solid #2D3748;
+    border-radius: 20px;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #2D3748;
+    color: #faf9f6;
+    border-color: #2D3748;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(88, 87, 82, 0.2);
+}
+.profile-pic-upload {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }

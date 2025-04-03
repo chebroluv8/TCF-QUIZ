@@ -21,7 +21,7 @@ html, body, #root {
   width: 100%;
   padding: 15px 30px;
   background: transparent;
-  border-top: 1px solid #585752;
+  border-top: 1px solid #2D3748;
   margin-top: auto; /* This helps push it to the bottom */
   box-sizing: border-box;
 }
@@ -38,13 +38,13 @@ html, body, #root {
 }
 
 .footer-links a {
-  color: #666;
+  color: #2D3748;
   text-decoration: none;
   font-size: 14px;
 }
 
 .footer-links a:hover {
-  color: #333;
+  color: #2d3748c9;
 }
 
 .footer-brand {
