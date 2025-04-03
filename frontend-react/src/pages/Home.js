@@ -37,70 +37,47 @@ function Dashboard() {
 
   return (
     <>
-    <Header />
+      <Header />
+      <div className="home-page">
+        <h1>Dashboard</h1>
+        <h2>Welcome back, {userData.first_name}!</h2>
 
-    <div className="home-page">
-    <h1>Dashboard</h1>
-    <h2>Welcome back, {userData.first_name}!</h2>
+        <div className="dashboard-container">
+          {/* Left side - Metrics container */}
+          <div className="metrics-container">
+            <h3>Metrics</h3>
+            {/* Metrics content will go here later */}
+          </div>
 
-    <div className="sets-container">
-      <h3>Your Question Sets</h3>
-      <div className="sets-grid">
-        {userSets.map(set => (
-          <div key={set.set_id} className="set-card">
-            <h4>{set.title}</h4>
-            <p>{set.description}</p>
-            <p>Category: {set.category}</p>
-            <button 
-              className="study-btn"
-              onClick={() => navigate(`/quiz/${set.set_id}`)}
-            >
-              Study This Set
-            </button>
-          </div>
-        ))}
-        <div className="set-card add-set-card" onClick={() => navigate('/create-set')}>
-          <div className="add-set-content">
-            <i className="fas fa-plus"></i>
-            <h4>Create New Set</h4>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div className="box-row">
-    <div className="metrics-field">
-    <p className="p2">Metrics</p>
-        <div className="box-row">
-          <div className="metrics-box">
-            <div className="accuracy-text">##%</div>
-            <p>Accuracy</p>
-          </div>
-          <div className="metrics-box"> 
-          <div className="accuracy-text"># / #</div>
-          <p>Average Score</p>
+          {/* Right side - Sets container */}
+          <div className="sets-container">
+            <h3>Your Question Sets</h3>
+            <div className="sets-grid">
+              {userSets.map(set => (
+                <div key={set.set_id} className="set-card">
+                  <h4>{set.title}</h4>
+                  <p>{set.description}</p>
+                  <p className="category">Category: {set.category}</p>
+                  <button 
+                    className="study-btn"
+                    onClick={() => navigate(`/quiz/${set.set_id}`)}
+                  >
+                    Study This Set
+                  </button>
+                </div>
+              ))}
+              {/* Add New Set Card */}
+              <div className="set-card add-set-card" onClick={() => navigate('/create-set')}>
+                <div className="add-set-content">
+                  <i className="fas fa-plus"></i>
+                  <h4>Create New Set</h4>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-     </div>
-     <div className="sets-field">
-      <p className="p2">Sets</p>
-      <div className="sets-box">
-        Set 1
       </div>
-      <div className="sets-box">
-        Set 2
-      </div>
-      <div className="sets-box">
-        Set 3
-      </div>
-    
-     </div>
-    </div>
-     </div>
-     
-     
-
-    <Footer />
+      <Footer />
     </>
   );
 }

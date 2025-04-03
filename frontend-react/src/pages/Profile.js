@@ -14,6 +14,14 @@ function ProfilePage() {
   });
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedData, setEditedData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    password: ""
+  });
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     document.title = 'Profile';
@@ -41,6 +49,13 @@ function ProfilePage() {
 
       // Update the preview image
       updateProfilePicture(parsedUser.profile_pic);
+      
+      setEditedData({
+        first_name: parsedUser.first_name,
+        last_name: parsedUser.last_name,
+        email: parsedUser.email,
+        password: "••••••••" // Default hidden password
+      });
       
     } catch (error) {
       console.error('Error parsing user data:', error);
@@ -191,12 +206,55 @@ function ProfilePage() {
     return `http://127.0.0.1:5000/profile-pics/${userData.profile_pic}`;
   };
 
+  const handleEdit = () => {
+    setIsEditing(true);
+    setEditedData({
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      email: userData.email,
+      password: ""  // Clear password when editing
+    });
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await fetch('http://127.0.0.1:5000/update-user', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...editedData,
+          old_email: userData.email // to identify the user
+        })
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUserData(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+        setIsEditing(false);
+        alert('Profile updated successfully!');
+      } else {
+        alert('Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error updating profile');
+    }
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    setShowPassword(false);
+  };
+
   return (
     <>
       <Header />
       <div className="profile_page">
         <div className="profile_container">
-        <p className="p5">Profile</p>
+          <p className="p5">Profile</p>
           <div className="profile-pic-section">
             <img
               id="preview"
@@ -228,15 +286,75 @@ function ProfilePage() {
           </div>
           
           <div className="container_content">
-            <div className="smaller_field">
-                <p className="profile-text">{userData.first_name} {userData.last_name}</p>
+            <div className="smaller_field" data-label="First Name">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedData.first_name}
+                  onChange={(e) => setEditedData({...editedData, first_name: e.target.value})}
+                  className="edit-input"
+                />
+              ) : (
+                <p className="profile-text">{userData.first_name}</p>
+              )}
             </div>
 
-            <div className="smaller_field">
+            <div className="smaller_field" data-label="Last Name">
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedData.last_name}
+                  onChange={(e) => setEditedData({...editedData, last_name: e.target.value})}
+                  className="edit-input"
+                />
+              ) : (
+                <p className="profile-text">{userData.last_name}</p>
+              )}
+            </div>
+
+            <div className="smaller_field" data-label="Email">
+              {isEditing ? (
+                <input
+                  type="email"
+                  value={editedData.email}
+                  onChange={(e) => setEditedData({...editedData, email: e.target.value})}
+                  className="edit-input"
+                />
+              ) : (
                 <p className="profile-text">{userData.email}</p>
+              )}
+            </div>
+
+            <div className="smaller_field" data-label="Password">
+              {isEditing ? (
+                <input
+                  type="password"
+                  value={editedData.password}
+                  onChange={(e) => setEditedData({...editedData, password: e.target.value})}
+                  className="edit-input"
+                  placeholder="Enter new password"
+                />
+              ) : (
+                <p className="profile-text">••••••••</p>
+              )}
             </div>
           </div>
+
           <div className="profile-buttons">
+            {isEditing ? (
+              <>
+                <button className="save-button" onClick={handleSave}>
+                  Save Changes
+                </button>
+                <button className="cancel-button" onClick={handleCancel}>
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button className="edit-button" onClick={handleEdit}>
+                Edit Profile
+              </button>
+            )}
             <button className="logout-button" onClick={handleLogout}>
               Log Out
             </button>

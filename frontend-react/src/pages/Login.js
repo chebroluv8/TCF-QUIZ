@@ -39,7 +39,7 @@ function Login() {
             if (response.ok) {
                 // Store user data in localStorage for later use
                 localStorage.setItem('user', JSON.stringify(data.user));
-                navigate('/profile');
+                navigate('/home');
             } else {
                 setError(data.message || 'Invalid credentials');
             }

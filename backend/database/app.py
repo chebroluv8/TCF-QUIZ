@@ -3,6 +3,7 @@ from flask_cors import CORS
 import sqlite3
 import os
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 CORS(app)
@@ -421,6 +422,52 @@ def create_set():
         "message": "Set created successfully",
         "set_id": set_id
     })
+
+@app.route('/update-user', methods=['PUT'])
+def update_user():
+    data = request.json
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    update_fields = []
+    values = []
+    
+    if data.get('first_name'):
+        update_fields.append('first_name = ?')
+        values.append(data['first_name'])
+    
+    if data.get('last_name'):
+        update_fields.append('last_name = ?')
+        values.append(data['last_name'])
+    
+    if data.get('email'):
+        update_fields.append('email = ?')
+        values.append(data['email'])
+    
+    if data.get('password'):
+        update_fields.append('password = ?')
+        values.append(generate_password_hash(data['password']))
+    
+    if update_fields:
+        values.append(data['old_email'])  # Add the old email for WHERE clause
+        query = f'''
+            UPDATE users 
+            SET {', '.join(update_fields)}
+            WHERE email = ?
+        '''
+        cursor.execute(query, values)
+        conn.commit()
+        
+        # Fetch updated user data
+        cursor.execute('SELECT id, first_name, last_name, email, profile_pic FROM users WHERE email = ?', 
+                      [data.get('email') or data['old_email']])
+        user = cursor.fetchone()
+        conn.close()
+        
+        return jsonify(dict(user))
+    
+    conn.close()
+    return jsonify({'message': 'No fields to update'})
 
 if __name__ == '__main__':
     app.run(debug=True)

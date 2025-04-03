@@ -22,6 +22,7 @@ function Quiz() {
     category: "",
     date_created: ""
   });
+  const [isFlipping, setIsFlipping] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -99,20 +100,28 @@ function Quiz() {
   // Go to previous question
   const goToPrevious = () => {
     if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-      setAnswered(userAnswers[currentQuestion - 1] !== null);
-      setSelectedOption(userAnswers[currentQuestion - 1]);
-      setAnswerStatus(null);
+      setIsFlipping(true);
+      setTimeout(() => {
+        setCurrentQuestion(currentQuestion - 1);
+        setAnswered(userAnswers[currentQuestion - 1] !== null);
+        setSelectedOption(userAnswers[currentQuestion - 1]);
+        setAnswerStatus(null);
+        setIsFlipping(false);
+      }, 300); // Half of our animation duration
     }
   };
 
   // Go to next question
   const goToNext = () => {
     if (currentQuestion < quizData.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-      setAnswered(null);
-      setSelectedOption(userAnswers[currentQuestion + 1]);
-      setAnswerStatus(null);
+      setIsFlipping(true);
+      setTimeout(() => {
+        setCurrentQuestion(currentQuestion + 1);
+        setAnswered(null);
+        setSelectedOption(userAnswers[currentQuestion + 1]);
+        setAnswerStatus(null);
+        setIsFlipping(false);
+      }, 300); // Half of our animation duration
     }
   };
 
@@ -145,7 +154,7 @@ function Quiz() {
           </div>
         </div>
 
-        <div className="flashcard">
+        <div className={`flashcard ${isFlipping ? 'flipping' : ''}`}>
           <h2 className="question">{quizData[currentQuestion]?.question}</h2> 
           <form onSubmit={handleSubmit}>
             {quizData[currentQuestion]?.options.map((option, index) => {
