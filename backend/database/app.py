@@ -495,5 +495,16 @@ def delete_set(set_id):
         conn.close()
         return jsonify({"error": str(e)}), 500
 
+@app.route('/delete-question/<question_id>', methods=['DELETE'])
+def delete_question(question_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('DELETE FROM questions WHERE question_id = ?', (question_id,))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "Question deleted successfully"})
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -83,13 +83,14 @@
 
 select {
     width: 200px;
-    padding: 12px;
+    padding: 8px;
     border: 2px solid #E2E8F0;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 14px;
     margin: 15px 0;
     background-color: #ffffff;
     cursor: pointer;
+    font-family: Hind, sans-serif;
 }
 
 button {
@@ -210,13 +211,19 @@ select:focus {
 }
 
 .difficulty-select {
+    font-family: Hind, sans-serif;
+    font-size: 14px;
     padding: 8px 12px;
     border: 2px solid #E2E8F0;
     border-radius: 10px;
-    font-size: 14px;
     background-color: #ffffff;
     cursor: pointer;
-    font-weight: 500;
+    transition: border-color 0.3s ease;
+}
+
+.difficulty-select:focus {
+    border-color: #4A90E2;
+    outline: none;
 }
 
 .difficulty-select option {
@@ -274,4 +281,30 @@ select:focus {
 
 .difficulty-selector select option[value="hard"] {
     color: #F56565;
+}
+
+.remove-btn {
+    background: none;
+  color: #666;
+  border: none;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 100%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-btn:hover {
+    background-color: rgba(245, 101, 101, 0.2); /* Light red background on hover */
+    color: #ef4444; /* Darker red text on hover */
+}
+
+.remove-btn i {
+    color: #666; /* Icon color */
+}
+
+.remove-btn:hover i {
+    color: #ef4444; /* Change icon color on hover */
 }

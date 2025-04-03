@@ -44,7 +44,6 @@ function AddQuestions() {
       fetch(`http://127.0.0.1:5000/set-questions/${setId}`)
         .then(res => res.json())
         .then(data => {
-          // Make sure we include question_id in the state
           const questionsWithIds = data.map(q => ({
             question_id: q.question_id,
             question: q.question,
@@ -148,6 +147,22 @@ function AddQuestions() {
     }
   };
 
+  const removeQuestion = async (questionId) => {
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/delete-question/${questionId}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        setQuestions(questions.filter(q => q.question_id !== questionId));
+        alert('Question removed successfully!');
+      } else {
+        alert('Failed to remove question');
+      }
+    } catch (error) {
+      console.error('Error removing question:', error);
+    }
+  };
+
   return (
     <>
     <Header />
@@ -198,7 +213,7 @@ function AddQuestions() {
             </div>
             <button onClick={saveSetInfo}>Save Set Info</button>
           </div>
-    </div>
+        </div>
 
         <div className="questions-editor">
           <h2>Edit Questions</h2>
@@ -257,6 +272,9 @@ function AddQuestions() {
                   <option value="hard">Hard</option>
                 </select>
                 <button onClick={() => saveQuestion(question, index)}>Save Question</button>
+                <button onClick={() => removeQuestion(question.question_id)} className="remove-btn">
+                  <i className="fas fa-times"></i>
+                </button>
               </div>
             </div>
           ))}

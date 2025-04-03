@@ -193,6 +193,9 @@ function Quiz() {
                 <i className="fas fa-calendar"></i> 
                 {setInfo.date_created ? new Date(setInfo.date_created).toLocaleDateString() : ''}
               </span>
+              <span className="number-of-questions">
+                <i className="fas fa-hashtag"></i> {quizData.length}
+              </span>
               <span className="difficulty" style={{ 
                 backgroundColor: getDifficultyColor(setInfo.set_difficulty),
                 color: 'white',
@@ -204,6 +207,7 @@ function Quiz() {
                 <i className="fas fa-layer-group"></i> {setInfo.set_difficulty?.charAt(0).toUpperCase() + setInfo.set_difficulty?.slice(1) || 'Medium'}
               </span>
               
+              
             </div>
           </div>
         </div>
@@ -211,16 +215,7 @@ function Quiz() {
         <div className={`flashcard ${isFlipping ? 'flipping' : ''}`}>
           <div className="question-header">
             <h2 className="question">{quizData[currentQuestion]?.question}</h2>
-            <span 
-              className="difficulty-badge"
-              style={{ 
-                backgroundColor: getDifficultyColor(quizData[currentQuestion]?.question_difficulty),
-                fontWeight: '500'
-              }}
-            >
-              {quizData[currentQuestion]?.question_difficulty?.charAt(0).toUpperCase() + 
-               quizData[currentQuestion]?.question_difficulty?.slice(1) || 'Medium'}
-            </span>
+            
           </div>
           <form onSubmit={handleSubmit}>
             {quizData[currentQuestion]?.options.map((option, index) => {
@@ -252,7 +247,16 @@ function Quiz() {
                 </label>
               );
             })}
-            
+            <span 
+              className="difficulty-badge"
+              style={{ 
+                backgroundColor: getDifficultyColor(quizData[currentQuestion]?.question_difficulty),
+                fontWeight: '500'
+              }}
+            >
+              {quizData[currentQuestion]?.question_difficulty?.charAt(0).toUpperCase() + 
+               quizData[currentQuestion]?.question_difficulty?.slice(1) || 'Medium'}
+            </span>
             <input 
               className="submit-btn" 
               type="submit" 

@@ -44,6 +44,24 @@
     border-color: #4A90E2;
     box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
   }
+
+  .back-btnA {
+    color: #2D3748;
+    background-color: #f5f5f5;
+    padding: 12px 24px;
+    border: 2px solid #2D3748;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+
+  .back-btnA:hover {
+    background-color: #2D3748;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(45, 55, 72, 0.2);
+  }
   
   .create-btn {
     background-color: #4A90E2;

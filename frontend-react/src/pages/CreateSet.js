@@ -54,7 +54,7 @@ function CreateSet() {
       <Header />
       <div className="create-set-container">
         <button 
-          className="back-btn"
+          className="back-btnA"
           onClick={() => navigate('/home')}
         >
           <i className="fas fa-arrow-left"></i> Back to Dashboard
