@@ -38,6 +38,8 @@ body {
     border-radius: 15px;
     padding: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .sets-grid {
@@ -221,6 +223,29 @@ h1, h2 {
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(88, 87, 82, 0.2);
 }
+
+.set-metadata {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 100px;
+    padding-right: 100px;
+    gap: 20px;
+    color: #718096;
+    
+  }
+
+  
+  .set-metadata span {
+    display: flex;
+    font-size: 13px;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .set-metadata .difficulty i {
+    color: #ffffff;
+  }
 
 .accuracy-text {
     font-family: Hind, sans-serif;

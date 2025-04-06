@@ -15,7 +15,6 @@ function Quiz() {
   const [userAnswers, setUserAnswers] = useState(Array(quizData.length).fill(null));
   const [selectedOption, setSelectedOption] = useState(null);
   const [answerStatus, setAnswerStatus] = useState(null); 
-  const [loading, setLoading] = useState(true);
   const [setInfo, setSetInfo] = useState({
     title: "",
     description: "",
@@ -54,11 +53,9 @@ function Quiz() {
             question_difficulty: q.question_difficulty
           }));
           setQuizData(transformedData);
-          setLoading(false);
         }
       } catch (error) {
         console.error('Error:', error);
-        setLoading(false);
       }
     };
     

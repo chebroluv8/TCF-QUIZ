@@ -3,7 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer';
 import Header from '../components/header';
 import '../styles/Home.css';
-import { Link } from 'react-router-dom';
+
+const getDifficultyColor = (difficulty) => {
+    switch(difficulty?.toLowerCase()) {
+        case 'easy':
+            return '#48BB78';  // green
+        case 'hard':
+            return '#F56565';  // red
+        case 'medium':
+        default:
+            return '#e3d326';  // blue
+    }
+};
 
 function Dashboard() {
   const [userData, setUserData] = useState({
@@ -57,7 +68,24 @@ function Dashboard() {
                 <div key={set.set_id} className="set-card">
                   <h4>{set.title}</h4>
                   <p>{set.description}</p>
-                  <p className="category">Category: {set.category}</p>
+                  <div className="set-metadata">
+                    <span className="category">
+                      <i className="fas fa-folder"></i> {set.category}
+                    </span>
+                  <span className="date">
+                    <i className="fas fa-calendar"></i> {set.date_created ? new Date(set.date_created).toLocaleDateString() : ''}
+                  </span>
+                  <span className="difficulty" style={{ 
+                    backgroundColor: getDifficultyColor(set.set_difficulty),
+                    color: 'white',
+                    padding: '4px 12px',
+                    borderRadius: '20px',
+                    marginLeft: '10px',
+                    fontWeight: '500'
+                  }}>
+                    <i className="fas fa-layer-group"></i> {set.set_difficulty?.charAt(0).toUpperCase() + set.set_difficulty?.slice(1) || 'Medium'}
+                  </span>
+                  </div>
                   <button 
                     className="study-btn"
                     onClick={() => navigate(`/quiz/${set.set_id}`)}

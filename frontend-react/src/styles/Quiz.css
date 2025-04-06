@@ -100,11 +100,15 @@ h1{
   justify-content: center;
   gap: 15px;
   margin-bottom: 20px;
+  padding-left: 100px;
+  padding-right: 100px;
   width: 100%;
 }
 
 .difficulty-badge {
   padding: 4px 12px;
+  display: inline-block;
+  align-self: center;
   border-radius: 20px;
   color: white;
   font-size: 14px;
@@ -121,6 +125,7 @@ h2.question {
 
 .submit-btn {
     display: inline-block;
+    align-self: center;
     padding: 8px 16px;
     background-color: #4A90E2;
     color: #FFFFFF;
