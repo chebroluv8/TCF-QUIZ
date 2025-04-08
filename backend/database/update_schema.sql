@@ -40,3 +40,5 @@ FROM temp_questions;
 
 -- Drop the temporary table
 DROP TABLE IF EXISTS temp_questions;
+
+

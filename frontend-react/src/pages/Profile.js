@@ -349,6 +349,9 @@ function ProfilePage() {
                 <button className="cancel-button" onClick={handleCancel}>
                   Cancel
                 </button>
+                <button className="delete-button" onClick={handleDeleteAccount}>
+              Delete Account
+            </button>
               </>
             ) : (
               <button className="edit-button" onClick={handleEdit}>
@@ -358,9 +361,7 @@ function ProfilePage() {
             <button className="logout-button" onClick={handleLogout}>
               Log Out
             </button>
-            <button className="delete-button" onClick={handleDeleteAccount}>
-              Delete Account
-            </button>
+            
           </div>
         </div>
       </div>

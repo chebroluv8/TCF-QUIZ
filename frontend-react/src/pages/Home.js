@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../components/footer';
 import Header from '../components/header';
 import '../styles/Home.css';
+import DashboardMetrics from '../components/DashboardMetrics';
+import Sets from '../components/Sets';
+
+
 
 const getDifficultyColor = (difficulty) => {
     switch(difficulty?.toLowerCase()) {
@@ -20,10 +24,14 @@ function Dashboard() {
   const [userData, setUserData] = useState({
     first_name: "",
     last_name: "",
-    email: ""
+    email: "",
+    loginCount: 0,
+    quizCount: 0,
+    scoreCount: 0
   });
   const [userSets, setUserSets] = useState([]);
   const navigate = useNavigate();
+  const [quizHistory, setQuizHistory] = useState([]);
 
   useEffect(() => {
     document.title = 'Home';
@@ -44,7 +52,27 @@ function Dashboard() {
       .then(response => response.json())
       .then(data => setUserSets(data))
       .catch(error => console.error('Error fetching sets:', error));
+
+    fetch(`http://127.0.0.1:5000/quiz-history/${parsedUser.id}`)
+      .then(response => response.json())
+      .then(data => setQuizHistory(data))
+      .catch(error => console.error('Error fetching quiz history:', error));
+
+    // Fetch user data including login count
+    fetch(`http://127.0.0.1:5000/user/${parsedUser.id}`)
+        .then(response => response.json())
+        .then(userData => {
+            setUserData(prevData => ({
+                ...prevData,
+                loginCount: userData.login_count,
+                quizCount: userData.quiz_count,
+                scoreCount: userData.lifetime_score
+            }));
+        })
+        .catch(error => console.error('Error fetching user data:', error));
   }, [navigate]);
+
+  
 
   return (
     <>
@@ -54,56 +82,10 @@ function Dashboard() {
         <h2>Welcome back, {userData.first_name}!</h2>
 
         <div className="dashboard-container">
-          {/* Left side - Metrics container */}
-          <div className="metrics-container">
-            <h3>Metrics</h3>
-            {/* Metrics content will go here later */}
+            <Sets userSets={userSets} getDifficultyColor={getDifficultyColor} userData={userData} />
+            <DashboardMetrics quizzesTaken={userData.quizCount} totalScore={userData.scoreCount} loginCount={userData.loginCount} quizHistory={quizHistory} />
+          
           </div>
-
-          {/* Right side - Sets container */}
-          <div className="sets-container">
-            <h3>Your Question Sets</h3>
-            <div className="sets-grid">
-              {userSets.map(set => (
-                <div key={set.set_id} className="set-card">
-                  <h4>{set.title}</h4>
-                  <p>{set.description}</p>
-                  <div className="set-metadata">
-                    <span className="category">
-                      <i className="fas fa-folder"></i> {set.category}
-                    </span>
-                  <span className="date">
-                    <i className="fas fa-calendar"></i> {set.date_created ? new Date(set.date_created).toLocaleDateString() : ''}
-                  </span>
-                  <span className="difficulty" style={{ 
-                    backgroundColor: getDifficultyColor(set.set_difficulty),
-                    color: 'white',
-                    padding: '4px 12px',
-                    borderRadius: '20px',
-                    marginLeft: '10px',
-                    fontWeight: '500'
-                  }}>
-                    <i className="fas fa-layer-group"></i> {set.set_difficulty?.charAt(0).toUpperCase() + set.set_difficulty?.slice(1) || 'Medium'}
-                  </span>
-                  </div>
-                  <button 
-                    className="study-btn"
-                    onClick={() => navigate(`/quiz/${set.set_id}`)}
-                  >
-                    Study This Set
-                  </button>
-                </div>
-              ))}
-              {/* Add New Set Card */}
-              <div className="set-card add-set-card" onClick={() => navigate('/create-set')}>
-                <div className="add-set-content">
-                  <i className="fas fa-plus"></i>
-                  <h4>Create New Set</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
       <Footer />
     </>

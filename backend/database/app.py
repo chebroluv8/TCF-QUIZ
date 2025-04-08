@@ -41,7 +41,10 @@ def get_users():
             "last_name": row['last_name'],
             "email": row['email'],
             "password": row['password'],
-            "profile_pic": row['profile_pic']
+            "profile_pic": row['profile_pic'],
+            "login_count": row['login_count'],
+            "quiz_count": row['quiz_count'],
+            "lifetime_score": row['lifetime_score']
         })
     return jsonify([dict(u) for u in user_list])
 
@@ -68,6 +71,10 @@ def login():
         # Convert user data to dictionary
         user_dict = dict(user)
         print(f"User found: {user_dict}")  # Debug print
+        
+        # Increment login count
+        cursor.execute('UPDATE users SET login_count = login_count + 1 WHERE id = ?', (user_dict['id'],))
+        conn.commit()
         
         # Ensure profile_pic is included
         if 'profile_pic' not in user_dict or not user_dict['profile_pic']:
@@ -302,6 +309,24 @@ def get_user_sets(user_id):
     
     return jsonify([dict(s) for s in sets])
 
+@app.route('/user-scores/<int:user_id>', methods=['GET'])
+def get_user_scores(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        SELECT score, date_taken
+        FROM user_scores
+        WHERE user_id = ?
+        ORDER BY date_taken ASC
+    ''', (user_id,))
+    
+    scores = cursor.fetchall()
+    conn.close()
+
+    return jsonify([dict(row) for row in scores])
+
+
 @app.route('/set-questions/<set_id>', methods=['GET'])
 def get_set_questions(set_id):
     conn = get_db_connection()
@@ -332,7 +357,7 @@ def get_set_info(set_id):
     cursor = conn.cursor()
     
     cursor.execute('''
-        SELECT title, description, category, date_created, set_difficulty 
+        SELECT set_id, user_id, title, description, category, date_created, set_difficulty 
         FROM question_sets 
         WHERE set_id = ?
     ''', (set_id,))
@@ -506,5 +531,98 @@ def delete_question(question_id):
     
     return jsonify({"message": "Question deleted successfully"})
 
+@app.route('/user/<int:user_id>', methods=['GET'])
+def get_user(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, first_name, last_name, email, login_count, quiz_count, lifetime_score FROM users WHERE id = ?', (user_id,))
+    user = cursor.fetchone()
+    conn.close()
+
+    if user:
+        return jsonify(dict(user))
+    else:
+        return jsonify({"message": "User not found"}), 404
+
+@app.route('/increment-quiz-count/<int:user_id>', methods=['POST'])
+def increment_quiz_count(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('UPDATE users SET quiz_count = quiz_count + 1 WHERE id = ?', (user_id,))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "Quiz count incremented successfully"}), 200
+
+@app.route('/increment-score-count/<int:user_id>', methods=['POST'])
+def increment_score_count(user_id):
+    data = request.get_json()
+    score = data.get('score', 0)  # Default to 0 if not provided
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('UPDATE users SET lifetime_score = lifetime_score + ? WHERE id = ?', (score, user_id))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"message": "Score count incremented successfully"}), 200
+
+@app.route('/submit-score', methods=['POST'])
+def submit_score():
+    data = request.get_json()
+    user_id = data.get('user_id')
+    set_id = data.get('set_id')
+    score = data.get('score')
+    correct = data.get('correct')
+    incorrect = data.get('incorrect')
+    easy_correct = data.get('easy_correct')
+    medium_correct = data.get('medium_correct')
+    hard_correct = data.get('hard_correct')
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        INSERT INTO user_scores (
+            user_id, set_id, score,
+            correct, incorrect,
+            easy_correct, medium_correct, hard_correct
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ''', (
+        user_id, set_id, score,
+        correct, incorrect,
+        easy_correct, medium_correct, hard_correct
+    ))
+
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Score recorded successfully"}), 200
+
+@app.route('/quiz-history/<int:user_id>', methods=['GET'])
+def get_quiz_history(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT 
+            us.score, us.correct, us.incorrect, 
+            us.easy_correct, us.medium_correct, us.hard_correct, 
+            us.date_taken, 
+            qs.title AS set_title
+        FROM user_scores us
+        JOIN question_sets qs ON us.set_id = qs.set_id
+        WHERE us.user_id = ?
+        ORDER BY us.date_taken DESC
+    ''', (user_id,))
+
+    history = cursor.fetchall()
+    conn.close()
+
+    return jsonify([dict(row) for row in history])
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+

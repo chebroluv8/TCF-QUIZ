@@ -21,19 +21,19 @@ CREATE TABLE IF NOT EXISTS questions (
     FOREIGN KEY (set_id) REFERENCES question_sets(set_id)
 );
 
-CREATE TABLE IF NOT EXISTS user_answers (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    question_id INTEGER,
-    user_answer TEXT NOT NULL,
-    correct BOOLEAN,
-    FOREIGN KEY (question_id) REFERENCES questions(question_id)
+CREATE TABLE IF NOT EXISTS user_scores (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,     
+  user_id INTEGER,                         
+  set_id INTEGER,                          
+  score INTEGER,                           
+  correct INTEGER,                         
+  incorrect INTEGER,                       
+  easy_correct INTEGER,                    
+  medium_correct INTEGER,                  
+  hard_correct INTEGER,                    
+  date_taken TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS scores (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL,
-    score INTEGER NOT NULL
-);
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,5 +41,8 @@ CREATE TABLE IF NOT EXISTS users (
     last_name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    profile_pic TEXT DEFAULT 'default.png'
+    profile_pic TEXT DEFAULT 'default.png',
+    login_count INTEGER DEFAULT 0,
+    quiz_count INTEGER DEFAULT 0,
+    lifetime_score INTEGER DEFAULT 0
 );

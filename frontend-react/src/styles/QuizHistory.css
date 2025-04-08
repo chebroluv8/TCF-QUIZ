@@ -1,0 +1,38 @@
+.quiz-history {
+    margin-top: 5px;
+    display: inline-block;
+    width: 100%;
+  }
+  
+  .quiz-history table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .quiz-history th, .quiz-history td {
+    border: 1px solid #e2e8f0;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .quiz-history th {
+    background-color: #2D3748;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .quiz-history .easy-column {
+    background-color: #48BB78;
+    color: #ffffff;
+  }
+
+  .quiz-history .medium-column {
+    background-color: #e3d326;
+    color: #ffffff;
+  } 
+
+  .quiz-history .hard-column {
+    background-color: #F56565;
+    color: #ffffff;
+  }
+  
