@@ -54,7 +54,7 @@ def login():
     email = data.get('email')
     password = data.get('password')
     
-    print(f"Attempting login with email: {email}")  # Debug print
+    print(f"Attempting login with email: {email}")  
     
     if not email or not password:
         return jsonify({"message": "Email and password required"}), 400
@@ -210,18 +210,6 @@ def submit_answer():
     conn.close()
 
     return jsonify({'message': 'Answer submitted successfully'})
-
-@app.route('/scores', methods=['GET'])
-def get_scores():
-    user_id = request.args.get('user_id')
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM scores WHERE user_id = ?', (user_id,))
-    scores = cursor.fetchall()
-    conn.close()
-
-    return jsonify([dict(s) for s in scores])
 
 
 def allowed_file(filename):

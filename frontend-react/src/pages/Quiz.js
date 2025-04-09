@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Quiz.css';
-import Progress from './Progress';
-import ScoreCounter from './Score-counter';
+import Progress from '../components/Progress.js';
+import ScoreCounter from '../components/Score-counter.js';
 import Header from '../components/header.js';
 import Footer from '../components/footer.js';
 import { useNavigate, useLocation } from 'react-router-dom';
